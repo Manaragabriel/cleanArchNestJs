@@ -27,7 +27,7 @@ export class UserTableCreation1667868738210 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'fullName',
+            name: 'isActive',
             type: 'tinyint (1)',
           },
         ],

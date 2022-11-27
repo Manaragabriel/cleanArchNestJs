@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { InjectDataSource, TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from './infrastructure/database/models/UserModel';
+import Datasource from './configDatabase'
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -13,12 +15,16 @@ import { UserModel } from './infrastructure/database/models/UserModel';
       username: 'user',
       password: 'user',
       database: 'clean_arch_nestjs_database',
-      entities: [],
-      migrations: ['src/infrastructure/database/migrations/**.ts'],
-      synchronize: true,
+      entities: [UserModel],
+      synchronize: false,
     }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    @InjectDataSource()
+    private dataSource: DataSource
+  ) {} 
+}
